@@ -1,8 +1,10 @@
+{% load resources %}
 <!DOCTYPE html>
 <html>
 <head>
   <title>{% block title %}The Translation Tool{% endblock %}</title>
 
+  {% css 'bootstrap/css/bootstrap.min.css' %}
   {% block css %}{% endblock %}
   <style type="text/css">
     body {
@@ -13,6 +15,9 @@
 </head>
 <body>
 {% block body %}{% endblock %}
+
+{% js 'jquery-1.10.2.min.js' %}
+{% js 'bootstrap/js/bootstrap.min.js' %}
 {% block js %}{% endblock %}
 </body>
 </html>
