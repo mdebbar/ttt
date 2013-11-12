@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load resources %}
+
+{% block css %}
+{% css 'translate/main.css' %}
+{% endblock %}
+
+{% block js %}
+  {% js 'translate/frames.js' %}
+{% endblock %}
+
+{% block body %}
+<h1>This is a test:</h1>
+<h2>{{ test }}</h2>
+{% endblock %}
