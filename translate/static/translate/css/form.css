@@ -14,5 +14,6 @@ form.translate button.reset {
 
 form.translate button.submit {
   width: 100%;
+  max-width: 300px;
 }
 

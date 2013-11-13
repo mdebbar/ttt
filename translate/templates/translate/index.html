@@ -3,17 +3,27 @@
 {% load resources %}
 
 {% block css %}
-  {% css 'translate/main.css' %}
-  {% css 'translate/form.css' %}
+  {% css 'translate/css/form.css' %}
+  {% css 'translate/css/frames.css' %}
+  {% css 'translate/css/options.css' %}
 {% endblock %}
 
 {% block js %}
-  {% js 'translate/main.js' %}
-  {% js 'translate/frames.js' %}
+  {% js 'translate/js/frames.js' %}
+  {% js 'translate/js/Store.js' %}
+  {% js 'translate/js/views.js' %}
+  <script>
+    // global listener to all store changes
+    Store.listen(function(k, v) {
+      console.log('Store: [', k, '] => [', v, ']');
+    });
+  </script>
 {% endblock %}
 
 {% block body %}
   <div class="container">
     {% include 'translate/form.html' %}
+    {% include 'translate/options.html' %}
+    {% include 'translate/frames.html' %}
   </div>
 {% endblock %}
