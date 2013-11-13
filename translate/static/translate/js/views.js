@@ -44,17 +44,22 @@
   function FrameView(_$container) {
     $container = _$container;
     $frames = $container.find('.frame');
-    Store.listen(fill, 'seq');
+    Store.listen(fill, 'frames', 'options');
   }
 
-  function fill(_, seq) {
-    if (!seq) {
+  function fill(_, frames) {
+    if (!frames) {
       $container.hide();
       return;
     }
 
     $container.show();
-    Frames.translateFrames(seq).forEach(function(frame, ii) {
+    if (frames.length < 6) {
+      $container.find('.loader').show();
+    } else {
+      $container.find('.loader').hide();
+    }
+    frames.forEach(function(frame, ii) {
       fillOne($frames.eq(ii), frame);
     });
   }
@@ -65,7 +70,8 @@
   }
 
   function renderFrame(frame) {
-    if (Store.get('pref', {}).short) {
+    within = false;
+    if (Store.get('options', {}).short) {
       return frame.short.map(renderAmino);
     } else {
       return frame.aminos.map(renderAmino);

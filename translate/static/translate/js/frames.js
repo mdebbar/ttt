@@ -110,7 +110,7 @@
 
   function translateFrames(seq) {
     return allFrames(clean(seq)).map(function(fr) {
-      tr = t(fr.seq);
+      var tr = t(fr.seq);
       return {
         title: fr.title,
         aminos: tr,
@@ -119,6 +119,32 @@
       };
     });
   }
+
+  function processFrames(frames, ii) {
+    ii = ii || 0;
+    var fr = frames[ii];
+    var tr = t(fr.seq);
+    Store.update('frames', [{
+      title: fr.title,
+      aminos: tr,
+      short: shorten(tr),
+      seq: fr.seq
+    }]);
+
+    if (ii + 1 < frames.length) {
+      setTimeout(processFrames.bind(null, frames, ii + 1), 50);
+    }
+  }
+
+  Store.listen(function(_, seq) {
+    if (!seq) {
+      Store.set('frames', null);
+      return;
+    }
+
+    Store.set('frames', []);
+    processFrames(allFrames(clean(seq)));
+  }, 'seq');
 
   exports.Frames = {
     translateFrames: translateFrames,

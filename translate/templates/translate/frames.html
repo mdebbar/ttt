@@ -1,7 +1,11 @@
 {% load jselement %}
+{% load staticfiles %}
 
 {% jselem FrameView %}
 <div {% elemID %} class="frames">
+  <div class="loader">
+    <img src="{% static 'loader.gif' %}" />
+  </div>
   {# 1 #}{% include 'translate/frame-panel.html' %}
   {# 2 #}{% include 'translate/frame-panel.html' %}
   {# 3 #}{% include 'translate/frame-panel.html' %}
