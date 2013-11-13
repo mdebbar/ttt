@@ -47,7 +47,8 @@
     Store.listen(fill, 'frames', 'options');
   }
 
-  function fill(_, frames) {
+  function fill() {
+    var frames = Store.get('frames');
     if (!frames) {
       $container.hide();
       return;
@@ -71,11 +72,7 @@
 
   function renderFrame(frame) {
     within = false;
-    if (Store.get('options', {}).short) {
-      return frame.short.map(renderAmino);
-    } else {
-      return frame.aminos.map(renderAmino);
-    }
+    return frame.aminos.map(renderAmino).join('');
   }
 
   var within = false;
@@ -90,7 +87,7 @@
     } else if (within) {
       klass += ' filled';
     }
-    return $('<span>', {'class': klass}).text(amino);
+    return '<span class="' + klass + '">' + amino + '</span>';
   }
 
   exports.FrameView = FrameView;

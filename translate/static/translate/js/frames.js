@@ -74,27 +74,18 @@
     return seq.slice(pos, pos + seq.length - seq.length % 3);
   }
 
-  function allFrames(seq) {
-    var rev = revCmp(clean(seq));
-    return [
-      {title: "5'3' Frame 1", seq: frame(seq, 0)},
-      {title: "5'3' Frame 2", seq: frame(seq, 1)},
-      {title: "5'3' Frame 3", seq: frame(seq, 2)},
-      {title: "3'5' Frame 1", seq: frame(rev, 0)},
-      {title: "3'5' Frame 2", seq: frame(rev, 1)},
-      {title: "3'5' Frame 3", seq: frame(rev, 2)}
-    ];
-  }
-
   // translate a seq of 3 codons
   function t3(seq3) {
     return TRANSLATION_MAP[seq3];
   }
 
   // translate a seq into a list of amino acids
-  function t(seq) {
+  function t(seq, spec) {
+    if (spec.rev) {
+      seq = revCmp(seq);
+    }
     var res = [];
-    for (var ii = 0; ii <= seq.length - 3; ii += 3) {
+    for (var ii = spec.pos; ii <= seq.length - 3; ii += 3) {
       res.push(t3(seq.slice(ii, ii + 3)));
     }
     return res;
@@ -108,46 +99,46 @@
     return aminoAcidList.map(shortenOne);
   }
 
-  function translateFrames(seq) {
-    return allFrames(clean(seq)).map(function(fr) {
-      var tr = t(fr.seq);
-      return {
-        title: fr.title,
-        aminos: tr,
-        short: shorten(tr),
-        seq: fr.seq
-      };
-    });
+
+  var FRAME_SPECS = [
+    {title: "5'3' Frame 1", pos: 0, rev: false},
+    {title: "5'3' Frame 2", pos: 1, rev: false},
+    {title: "5'3' Frame 3", pos: 2, rev: false},
+    {title: "3'5' Frame 1", pos: 0, rev: true },
+    {title: "3'5' Frame 2", pos: 1, rev: true },
+    {title: "3'5' Frame 3", pos: 2, rev: true }
+  ];
+
+  function processFrames(seq, ii) {
+    setTimeout(function() {
+      ii = ii || 0;
+      var aminos = t(seq, FRAME_SPECS[ii]);
+      if (Store.get('options', {}).short) {
+        aminos = shorten(aminos);
+      }
+      Store.update('frames', [{
+        title: FRAME_SPECS[ii].title,
+        aminos: aminos
+      }]);
+
+      if (ii + 1 < FRAME_SPECS.length) {
+        processFrames(seq, ii + 1);
+      }
+    }, 50);
   }
 
-  function processFrames(frames, ii) {
-    ii = ii || 0;
-    var fr = frames[ii];
-    var tr = t(fr.seq);
-    Store.update('frames', [{
-      title: fr.title,
-      aminos: tr,
-      short: shorten(tr),
-      seq: fr.seq
-    }]);
-
-    if (ii + 1 < frames.length) {
-      setTimeout(processFrames.bind(null, frames, ii + 1), 50);
-    }
-  }
-
-  Store.listen(function(_, seq) {
+  Store.listen(function() {
+    var seq = Store.get('seq');
     if (!seq) {
       Store.set('frames', null);
       return;
     }
 
     Store.set('frames', []);
-    processFrames(allFrames(clean(seq)));
-  }, 'seq');
+    processFrames(clean(seq));
+  }, 'seq', 'options');
 
   exports.Frames = {
-    translateFrames: translateFrames,
     isStart: function(amino) {
       return amino === START || amino === SHORT_AMINO[START.toUpperCase()];
     },
