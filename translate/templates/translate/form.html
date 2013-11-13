@@ -1,0 +1,18 @@
+{% load jselement %}
+
+{% jselem TranslateForm %}
+<form {% elemID %} role="form" class="translate">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">DNA or RNA sequence</h3>
+    </div>
+    <div class="panel-body">
+      <textarea {% subID seq %} class="form-control" rows="5"></textarea>
+    </div>
+    <div class="panel-footer buttons">
+      <button {% subID reset %} type="button" class="btn btn-info reset">Reset</button>
+      <button {% subID submit %} type="button" class="btn btn-primary submit">Translate</button>
+    </div>
+  </div>
+</form>
+{% endelem %}

@@ -3,21 +3,25 @@
 <html>
 <head>
   <title>{% block title %}The Translation Tool{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  {# global CSS #}
   {% css 'bootstrap/css/bootstrap.min.css' %}
+  {% css 'global.css' %}
   {% block css %}{% endblock %}
+
+  {# internal style #}
   <style type="text/css">
-    body {
-      margin: 0;
-    }
     {% block style %}{% endblock %}
   </style>
+
+  {# global JS #}
+  {% js 'jquery-1.10.2.min.js' %}
+  {% js 'bootstrap/js/bootstrap.min.js' %}
+  {% block js %}{% endblock %}
 </head>
 <body>
 {% block body %}{% endblock %}
 
-{% js 'jquery-1.10.2.min.js' %}
-{% js 'bootstrap/js/bootstrap.min.js' %}
-{% block js %}{% endblock %}
 </body>
 </html>

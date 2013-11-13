@@ -1,0 +1,18 @@
+form.translate .buttons {
+  box-sizing: border-box;
+  padding-left: 100px;
+  position: relative;
+  width: 100%;
+}
+
+form.translate button.reset {
+  left: 15px;
+  position: absolute;
+  top: 10px;
+  width: 70px;
+}
+
+form.translate button.submit {
+  width: 100%;
+}
+

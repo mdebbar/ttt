@@ -3,14 +3,17 @@
 {% load resources %}
 
 {% block css %}
-{% css 'translate/main.css' %}
+  {% css 'translate/main.css' %}
+  {% css 'translate/form.css' %}
 {% endblock %}
 
 {% block js %}
+  {% js 'translate/main.js' %}
   {% js 'translate/frames.js' %}
 {% endblock %}
 
 {% block body %}
-<h1>This is a test:</h1>
-<h2>{{ test }}</h2>
+  <div class="container">
+    {% include 'translate/form.html' %}
+  </div>
 {% endblock %}
