@@ -3,7 +3,7 @@
 }
 
 .frame {
-
+  word-wrap: break-word;
 }
 
 .frame .amino {

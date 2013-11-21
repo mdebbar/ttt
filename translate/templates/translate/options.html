@@ -1,7 +1,15 @@
 {% load jselement %}
 
 {% jselem OptionsView %}
-<div {% rootID %} class="options panel">
-
+<div {% rootID %} class="options panel panel-default">
+  <div class="panel-body">
+    <label class="checkbox-inline btn btn-default">
+      <input {% subID plaintext %} type="checkbox" class="option-checkbox" value="plaintext"> Plain Text
+    </label>
+    
+    <label class="checkbox-inline btn btn-default">
+      <input {% subID short %} type="checkbox" class="option-checkbox" value="short"> Short Amino Acid names
+    </label>
+  </div>
 </div>
 {% endelem %}

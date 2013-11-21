@@ -11,7 +11,7 @@
   
   function FastaFile(label) {
     $label = $(label);
-    var input = document.getElementById($label.attr('for'));
+    var input = document.getElementById($label.prop('for'));
     $input = $(input);
     
     if (!enabled) {
@@ -122,7 +122,9 @@
 
   function renderFrame(frame) {
     within = false;
-    return frame.aminos.map(renderAmino).join('');
+    var aminos = Store.get('options', {}).short ?
+      Frames.shorten(frame.aminos) : frame.aminos;
+    return aminos.map(renderAmino).join('');
   }
 
   var within = false;
@@ -137,7 +139,8 @@
     } else if (within) {
       klass += ' filled';
     }
-    return '<span class="' + klass + '">' + amino + '</span>';
+    var isPlainText = Store.get('options', {}).plaintext;
+    return isPlainText ? amino : '<span class="' + klass + '">' + amino + '</span>';
   }
 
   exports.FrameView = FrameView;
@@ -185,12 +188,25 @@
 
   var $container;
   var $short;
-  var $autoUpdate;
+  var $plaintext;
 
   function OptionsView(container, options) {
     $container = $(container);
     $short = $(options.short);
-    $autoUpdate = $(options.autoUpdate);
+    $plaintext = $(options.plaintext);
+    
+    Store.set('options', {
+      short: options.short.checked,
+      plaintext: options.plaintext.checked
+    });
+    
+    $short.change(function() {
+      Store.update('options', {short: this.checked});
+    });
+    
+    $plaintext.change(function() {
+      Store.update('options', {plaintext: this.checked});
+    });
   }
 
   exports.OptionsView = OptionsView;

@@ -113,18 +113,16 @@
     setTimeout(function() {
       ii = ii || 0;
       var aminos = t(seq, FRAME_SPECS[ii]);
-      if (Store.get('options', {}).short) {
-        aminos = shorten(aminos);
-      }
       Store.update('frames', [{
         title: FRAME_SPECS[ii].title,
-        aminos: aminos
+        aminos: aminos,
+        frameSpec: FRAME_SPECS[ii]
       }]);
 
       if (ii + 1 < FRAME_SPECS.length) {
         processFrames(seq, ii + 1);
       }
-    }, 50);
+    }, 250);
   }
 
   Store.listen(function() {
@@ -136,7 +134,7 @@
 
     Store.set('frames', []);
     processFrames(clean(seq));
-  }, 'seq', 'options');
+  }, 'seq');
 
   exports.Frames = {
     isStart: function(amino) {
@@ -144,6 +142,7 @@
     },
     isStop: function(amino) {
       return amino === STOP || amino === SHORT_AMINO[STOP];
-    }
+    },
+    shorten: shorten
   };
 })(this);
