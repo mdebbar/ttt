@@ -101,10 +101,12 @@
     $frames = $container.find('.frame');
     Store.listen(fill, 'frames', 'options');
   }
+  
+  FrameView.TOTAL_FRAMES = 6;
 
   function fill() {
     var frames = Store.get('frames');
-    if (!frames || frames.length === 0) {
+    if (!frames || frames.length < FrameView.TOTAL_FRAMES) {
       $container.hide();
       return;
     }
@@ -156,8 +158,6 @@
   var $loader;
   var $progress;
   
-  const TOTAL_FRAMES = 6;
-  
   function Loader(container, subElems) {
     $loader = $(container);
     $progress = $(subElems.progressbar);
@@ -167,9 +167,9 @@
   
   function update() {
     var frames = Store.get('frames');
-    if (frames && frames.length < TOTAL_FRAMES) {
+    if (frames && frames.length < FrameView.TOTAL_FRAMES) {
       $loader.show();
-      var width = Math.floor(frames.length / TOTAL_FRAMES * 100);
+      var width = Math.floor(frames.length / FrameView.TOTAL_FRAMES * 100);
       $progress.css({width: String(width) + '%'});
     } else {
       $loader.hide();
@@ -195,17 +195,23 @@
     $short = $(options.short);
     $plaintext = $(options.plaintext);
     
+    // initialize options
     Store.set('options', {
       short: options.short.checked,
       plaintext: options.plaintext.checked
     });
     
-    $short.change(function() {
-      Store.update('options', {short: this.checked});
-    });
-    
-    $plaintext.change(function() {
-      Store.update('options', {plaintext: this.checked});
+    handleOptionCheckbox($short, 'short');
+    handleOptionCheckbox($plaintext, 'plaintext');
+  }
+  
+  function handleOptionCheckbox($input, optionKey) {
+    $input.change(function() {
+      var newOptions = {};
+      newOptions[optionKey] = this.checked;
+      setTimeout(function() {
+        Store.update('options', newOptions);
+      }, 0);
     });
   }
 
