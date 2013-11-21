@@ -70,12 +70,12 @@
 
   function fill() {
     var frames = Store.get('frames');
-    if (!frames) {
+    if (!frames || frames.length === 0) {
       $container.hide();
       return;
     }
-    $container.show();
     
+    $container.show();
     frames.forEach(function(frame, ii) {
       fillOne($frames.eq(ii), frame);
     });
