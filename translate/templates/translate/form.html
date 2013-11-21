@@ -1,16 +1,18 @@
 {% load jselement %}
 
-<div class="panel panel-default">
+{% jselem TranslateForm %}
+<div {% rootID %} class="translate panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">DNA or RNA sequence</h3>
   </div>
   
-  {% jselem TranslateForm %}
   <div class="panel-body">
-    <button {% subID fastafile %} class="btn btn-default">
-      <span class=".glyphicon .glyphicon-file"></span>
+    <label {% subID fastafilelabel %} for="fastafile" class="fastafile-btn btn btn-default">
+      <span class="glyphicon glyphicon-file"></span>
       Fasta File
-    </button>
+    </label>
+    <input type="file" id="fastafile" class="fastafile" />
+    
     <textarea {% subID seq %} class="form-control" rows="5">{# sample sequence #}
       1 cctgcccgtg cagccagagg atccagcacc tctcttgggg cttctccgtc ctcggcgctt
       61 ggaagtacgg atcttttttc tcggagaaaa gttcactgga actggaagaa atggatttat
@@ -22,5 +24,5 @@
     <button {% subID reset %} type="button" class="btn btn-info reset">Reset</button>
     <button {% subID submit %} type="button" class="btn btn-primary submit">Translate</button>
   </div>
-  {% endelem %}
 </div>
+{% endelem %}

@@ -5,8 +5,42 @@
 
 (function(exports) {
   
-  function FastaFile(container) {
+  var $label;
+  var $input;
+  var enabled = !!(window.File && window.FileReader);
+  
+  function FastaFile(label) {
+    $label = $(label);
+    var input = document.getElementById($label.attr('for'));
+    $input = $(input);
     
+    if (!enabled) {
+      $label.addClass('disabled');
+    }
+    
+    $input.change(fileSelected);
+  }
+
+  function fileSelected(event) {
+    var file = event.target.files[0];
+
+    if (!file) {
+      alert("Failed to load file");
+    } else if (!file.type.match('text.*')) {
+      alert(file.name + " is not a text file.");
+    } else {
+      readFileContents(file);
+    }
+    // this is required so that onchange event fires on every file selection
+    this.value = null;
+  }
+  
+  function readFileContents(file) {
+    var reader = new FileReader();
+    reader.onload = function(event) {
+      Store.set('seq', event.target.result);
+    };
+    reader.readAsText(file);
   }
   
   exports.FastaFile = FastaFile;
@@ -28,7 +62,7 @@
     $submit = $(subElements.submit);
     $seq = $(subElements.seq);
     
-    FastaFile(subElements.fastafile);
+    FastaFile(subElements.fastafilelabel);
 
     Store.listen(update, 'seq');
 
@@ -39,14 +73,14 @@
       $seq.val(seq);
     }
 
-    function reset() {
+    function reset(event) {
+      event.preventDefault();
       Store.set('seq', null);
-      return false;
     }
 
-    function submit() {
+    function submit(event) {
+      event.preventDefault();
       Store.set('seq', $seq.val());
-      return false;
     }
   }
 

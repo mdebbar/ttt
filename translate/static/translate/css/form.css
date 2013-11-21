@@ -1,18 +1,27 @@
-form.translate .buttons {
+.translate .fastafile-btn {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.translate .fastafile {
+  display: none;
+}
+
+.translate .buttons {
   box-sizing: border-box;
   padding-left: 100px;
   position: relative;
   width: 100%;
 }
 
-form.translate button.reset {
+.translate button.reset {
   left: 15px;
   position: absolute;
   top: 10px;
   width: 70px;
 }
 
-form.translate button.submit {
+.translate button.submit {
   width: 100%;
   max-width: 300px;
 }
