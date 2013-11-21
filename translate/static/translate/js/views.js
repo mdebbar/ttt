@@ -24,11 +24,11 @@
   var $submit;
   var $seq;
 
-  function TranslateForm(_$form, subElements) {
-    $form = _$form;
-    $reset = subElements.reset;
-    $submit = subElements.submit;
-    $seq = subElements.seq;
+  function TranslateForm(form, subElements) {
+    $form = $(form);
+    $reset = $(subElements.reset);
+    $submit = $(subElements.submit);
+    $seq = $(subElements.seq);
 
     Store.listen(update, 'seq');
 
@@ -62,8 +62,8 @@
   var $container;
   var $frames;
   
-  function FrameView(_$container, subElems) {
-    $container = _$container;
+  function FrameView(container) {
+    $container = $(container);
     $frames = $container.find('.frame');
     Store.listen(fill, 'frames', 'options');
   }
@@ -121,9 +121,9 @@
   
   const TOTAL_FRAMES = 6;
   
-  function Loader($container, subElems) {
-    $loader = $container;
-    $progress = subElems.progressbar;
+  function Loader(container, subElems) {
+    $loader = $(container);
+    $progress = $(subElems.progressbar);
     
     Store.listen(update, 'frames');
   }
@@ -153,10 +153,10 @@
   var $short;
   var $autoUpdate;
 
-  function OptionsView(_$container, options) {
-    $container = _$container;
-    $short = options.short;
-    $autoUpdate = options.autoUpdate;
+  function OptionsView(container, options) {
+    $container = $(container);
+    $short = $(options.short);
+    $autoUpdate = $(options.autoUpdate);
   }
 
   exports.OptionsView = OptionsView;

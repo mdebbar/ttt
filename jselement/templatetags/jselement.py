@@ -8,7 +8,7 @@ JS_CALL = '''
 <script>
   $(function() {
     %(name)s(
-      $("#JSELEMENT_%(id)s"),
+      document.getElementById('JSELEMENT_%(id)s'),
       {%(subElements)s}
     );
   });
@@ -37,7 +37,7 @@ class JSElementNode(Node):
       'name': name,
       'id': self.id,
       'subElements': ','.join(
-        '"%s": $("#JSELEMENT_%s")' % (k, v) for k, v in self.subIDs.iteritems()
+        '"%s": document.getElementById("JSELEMENT_%s")' % (k, v) for k, v in self.subIDs.iteritems()
       )
     }
 
