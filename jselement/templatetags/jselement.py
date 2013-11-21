@@ -7,7 +7,7 @@ register = template.Library()
 JS_CALL = '''
 <script>
   $(function() {
-    var %(name)s%(id)s = %(name)s(
+    %(name)s(
       $("#JSELEMENT_%(id)s"),
       {%(subElements)s}
     );
@@ -45,6 +45,8 @@ class JSElementNode(Node):
 @register.tag('jselem')
 def jsElement(parser, token):
   bits = token.split_contents()
+  if len(bits) < 2:
+    raise Exception('{% jselem <ElementName> %} requires an element name!')
   name = bits[1]
   mainID = genID()
   subIDs = {}
