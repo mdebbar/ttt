@@ -5,3 +5,29 @@ body {
 textarea {
   resize: none;
 }
+
+.topbar {
+  background-color: #222;
+  border: 1px solid #080808;
+  border-radius: 0 0 4px 4px;
+  margin-bottom: 20px;
+  min-height: 50px;
+  text-align: center;
+}
+
+.topbar a,
+.topbar a:hover,
+.topbar a:focus {
+  color: #999;
+  display: inline-block;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 20px;
+  padding: 15px;
+  text-decoration: none;
+}
+
+.topbar a:hover,
+.topbar a:focus {
+  color: #fff;
+}
