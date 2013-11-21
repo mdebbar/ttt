@@ -5,7 +5,7 @@
 
 (function(exports) {
   
-  function FastaFile($container) {
+  function FastaFile(container) {
     
   }
   
@@ -19,16 +19,16 @@
 
 (function(exports) {
 
-  var $form;
   var $reset;
   var $submit;
   var $seq;
 
-  function TranslateForm(form, subElements) {
-    $form = $(form);
+  function TranslateForm(_, subElements) {
     $reset = $(subElements.reset);
     $submit = $(subElements.submit);
     $seq = $(subElements.seq);
+    
+    FastaFile(subElements.fastafile);
 
     Store.listen(update, 'seq');
 

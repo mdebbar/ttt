@@ -8,7 +8,7 @@ JS_CALL = '''
 <script>
   $(function() {
     %(name)s(
-      document.getElementById('JSELEMENT_%(id)s'),
+      %(rootElement)s,
       {%(subElements)s}
     );
   });
@@ -36,6 +36,7 @@ class JSElementNode(Node):
     return JS_CALL % {
       'name': name,
       'id': self.id,
+      'rootElement': 'document.getElementById("JSELEMENT_%s")' % self.id if self.id else 'null',
       'subElements': ','.join(
         '"%s": document.getElementById("JSELEMENT_%s")' % (k, v) for k, v in self.subIDs.iteritems()
       )
@@ -48,12 +49,12 @@ def jsElement(parser, token):
   if len(bits) < 2:
     raise Exception('{% jselem <ElementName> %} requires an element name!')
   name = bits[1]
-  mainID = genID()
+  mainID = None
   subIDs = {}
 
   nodelist = parser.create_nodelist()
   while True:
-    tmp_nodelist = parser.parse(('elemID', 'subID', 'endelem'))
+    tmp_nodelist = parser.parse(('rootID', 'subID', 'endelem'))
     first_token = parser.tokens[0]
     token_contents = first_token.contents
     block_name = token_contents.split()[0]
@@ -62,7 +63,8 @@ def jsElement(parser, token):
     for node in tmp_nodelist:
       parser.extend_nodelist(nodelist, node, first_token)
 
-    if block_name == 'elemID':
+    if block_name == 'rootID':
+      mainID = mainID or genID()
       node = TextNode('id="JSELEMENT_%d"' % mainID)
       parser.extend_nodelist(nodelist, node, first_token)
     elif block_name == 'subID':

@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% jselem Loader %}
-<div {% elemID %} class="loader progress progress-striped">
+<div {% rootID %} class="loader progress progress-striped">
   <div {% subID progressbar %} class="progress-bar progress-bar-success">
     <span class="sr-only">40% Complete (success)</span>
   </div>
@@ -10,7 +10,7 @@
 {% endelem %}
 
 {% jselem FrameView %}
-<div {% elemID %} class="frames">
+<div {% rootID %} class="frames">
   {# 1 #}{% include 'translate/frame-panel.html' with id='frame1' %}
   {# 2 #}{% include 'translate/frame-panel.html' with id='frame2' %}
   {# 3 #}{% include 'translate/frame-panel.html' with id='frame3' %}
