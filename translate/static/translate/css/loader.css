@@ -1,0 +1,11 @@
+.loader {
+  display: none;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  width: 50%;
+}
+
+.loader .progress-bar {
+  width: 0;
+}

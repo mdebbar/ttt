@@ -1,16 +1,21 @@
 {% load jselement %}
 {% load staticfiles %}
 
+{% jselem Loader %}
+<div {% elemID %} class="loader progress progress-striped">
+  <div {% subID progressbar %} class="progress-bar progress-bar-success">
+    <span class="sr-only">40% Complete (success)</span>
+  </div>
+</div>
+{% endelem %}
+
 {% jselem FrameView %}
 <div {% elemID %} class="frames">
-  <div class="loader">
-    <img src="{% static 'loader.gif' %}" />
-  </div>
-  {# 1 #}{% include 'translate/frame-panel.html' %}
-  {# 2 #}{% include 'translate/frame-panel.html' %}
-  {# 3 #}{% include 'translate/frame-panel.html' %}
-  {# 4 #}{% include 'translate/frame-panel.html' %}
-  {# 5 #}{% include 'translate/frame-panel.html' %}
-  {# 6 #}{% include 'translate/frame-panel.html' %}
+  {# 1 #}{% include 'translate/frame-panel.html' with id='frame1' %}
+  {# 2 #}{% include 'translate/frame-panel.html' with id='frame2' %}
+  {# 3 #}{% include 'translate/frame-panel.html' with id='frame3' %}
+  {# 4 #}{% include 'translate/frame-panel.html' with id='frame4' %}
+  {# 5 #}{% include 'translate/frame-panel.html' with id='frame5' %}
+  {# 6 #}{% include 'translate/frame-panel.html' with id='frame6' %}
 </div>
 {% endelem %}

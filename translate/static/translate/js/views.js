@@ -1,4 +1,8 @@
 
+/*********************************************
+ **              TRANSLATE FORM             **
+ *********************************************/
+
 (function(exports) {
 
   var $form;
@@ -35,13 +39,16 @@
   exports.TranslateForm = TranslateForm;
 })(this);
 
+/*********************************************
+ **                 FRAMES                  **
+ *********************************************/
 
 (function(exports) {
 
   var $container;
   var $frames;
-
-  function FrameView(_$container) {
+  
+  function FrameView(_$container, subElems) {
     $container = _$container;
     $frames = $container.find('.frame');
     Store.listen(fill, 'frames', 'options');
@@ -53,13 +60,8 @@
       $container.hide();
       return;
     }
-
     $container.show();
-    if (frames.length < 6) {
-      $container.find('.loader').show();
-    } else {
-      $container.find('.loader').hide();
-    }
+    
     frames.forEach(function(frame, ii) {
       fillOne($frames.eq(ii), frame);
     });
@@ -93,6 +95,43 @@
   exports.FrameView = FrameView;
 })(this);
 
+
+/*********************************************
+ **                 LOADER                  **
+ *********************************************/
+
+(function(exports) {
+  
+  var $loader;
+  var $progress;
+  
+  const TOTAL_FRAMES = 6;
+  
+  function Loader($container, subElems) {
+    $loader = $container;
+    $progress = subElems.progressbar;
+    
+    Store.listen(update, 'frames');
+  }
+  
+  function update() {
+    var frames = Store.get('frames');
+    if (frames && frames.length < TOTAL_FRAMES) {
+      $loader.show();
+      var width = Math.floor(frames.length / TOTAL_FRAMES * 100);
+      $progress.css({width: String(width) + '%'});
+    } else {
+      $loader.hide();
+    }
+  }
+  
+  exports.Loader = Loader;
+})(this);
+
+
+/*********************************************
+ **                 OPTIONS                 **
+ *********************************************/
 
 (function(exports) {
 
