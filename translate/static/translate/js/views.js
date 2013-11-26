@@ -7,23 +7,37 @@
   
   var $label;
   var $input;
+  var $droppable;
   var enabled = !!(window.File && window.FileReader);
   
-  function FastaFile(label) {
-    $label = $(label);
+  function FastaFile(_, elements) {
+    $label = $(elements.label);
+    $droppable = $(elements.droppable);
+    
     var input = document.getElementById($label.prop('for'));
     $input = $(input);
     
     if (!enabled) {
       $label.addClass('disabled');
+      return;
     }
     
-    $input.change(fileSelected);
+    $input.change(fileChanged);
+    $droppable.on({
+      dragenter: handleDragEnter,
+      dragover: handleDragOver,
+      dragleave: handleDragLeave,
+      drop: handleDrop
+    });
+  }
+  
+  function fileChanged(event) {
+    loadFile(event.target.files[0]);
+    // this is required so that onchange event fires on every file selection
+    this.value = null;
   }
 
-  function fileSelected(event) {
-    var file = event.target.files[0];
-
+  function loadFile(file) {
     if (!file) {
       alert("Failed to load file");
     } else if (!file.type.match('text.*')) {
@@ -31,8 +45,6 @@
     } else {
       readFileContents(file);
     }
-    // this is required so that onchange event fires on every file selection
-    this.value = null;
   }
   
   function readFileContents(file) {
@@ -41,6 +53,28 @@
       Store.set('seq', event.target.result);
     };
     reader.readAsText(file);
+  }
+  
+  // Drag n Drop handlers
+  
+  function handleDragEnter() {
+    $droppable.addClass('dragging');
+  }
+  
+  function handleDragLeave() {
+    $droppable.removeClass('dragging');
+  }
+
+  function handleDragOver(event) {
+    event.preventDefault();
+  }
+  
+  function handleDrop(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    
+    $droppable.removeClass('dragging');
+    loadFile(event.originalEvent.dataTransfer.files[0]);
   }
   
   exports.FastaFile = FastaFile;
@@ -62,7 +96,10 @@
     $submit = $(subElements.submit);
     $seq = $(subElements.seq);
     
-    FastaFile(subElements.fastafilelabel);
+    FastaFile(_, {
+      label: subElements.fastafilelabel,
+      droppable: subElements.seq
+    });
 
     Store.listen(update, 'seq');
 
