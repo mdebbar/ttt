@@ -4,15 +4,18 @@
 
 {% block css %}
   {% css 'translate/css/form.css' %}
+  {% css 'translate/css/options.css' %}
   {% css 'translate/css/loader.css' %}
   {% css 'translate/css/frames.css' %}
-  {% css 'translate/css/options.css' %}
+  {% css 'blast/css/blast.css' %}
 {% endblock %}
 
 {% block js %}
-  {% js 'translate/js/Store.js' %}
+  {% js 'js/Store.js' %}
   {% js 'translate/js/frames.js' %}
   {% js 'translate/js/views.js' %}
+  {% js 'blast/js/api.js' %}
+  {% js 'blast/js/views.js' %}
   <script>
     // global listener to all store changes
     Store.listen(function(k, v) {
@@ -24,8 +27,9 @@
 {% block body %}
   <div class="container">
     {% include 'header.html' %}
-    {% include 'translate/form.html' %}
+    {% include 'form.html' %}
     {% include 'translate/options.html' %}
     {% include 'translate/frames.html' %}
+    {% include 'blast/blast.html' %}
   </div>
 {% endblock %}
