@@ -125,7 +125,7 @@
     }, 250);
   }
 
-  Store.listen(function() {
+  Store.listen('seq', function() {
     var seq = Store.get('seq');
     if (!seq) {
       Store.set('frames', null);
@@ -134,7 +134,7 @@
 
     Store.set('frames', []);
     processFrames(clean(seq));
-  }, 'seq');
+  });
 
   exports.Frames = {
     isStart: function(amino) {

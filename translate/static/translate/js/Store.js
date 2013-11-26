@@ -19,14 +19,17 @@
     }
   }
 
-  var Store = {
+  exports.Store = {
+
     get: function(key, def) {
       return data.hasOwnProperty(key) ? data[key] : def;
     },
+
     set: function(key, val) {
       data[key] = val;
       this.notify(key, val);
     },
+
     update: function(key, val, notify) {
       if (!data.hasOwnProperty(key)) {
         throw new Error('Can\'t update `' + key + '` doesn\'t exist');
@@ -47,13 +50,17 @@
         this.notify(key, currVal);
       }
     },
-    listen: function(cb) {
-      var keys = Array.prototype.slice.call(arguments, 1);
+
+    listen: function(/*args..., callback*/) {
+      var callback = Array.prototype.pop.call(arguments);
+      var keys = Array.prototype.slice.call(arguments, 0);
+      
       if (keys.length == 0) {
         keys = [GLOBAL_KEY];
       }
-      keys.forEach(attachListener.bind(null, cb));
+      keys.forEach(attachListener.bind(null, callback));
     },
+
     notify: function(key, val) {
       if (listeners[key]) {
         listeners[key].forEach(function(cb) {
@@ -66,7 +73,7 @@
         });
       }
     }
+
   };
 
-  exports.Store = Store;
 })(this);

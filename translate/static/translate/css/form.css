@@ -13,22 +13,10 @@
   padding: 5px 10px;
 }
 
-.translate .buttons {
-  box-sizing: border-box;
-  padding-left: 100px;
-  position: relative;
-  width: 100%;
-}
-
-.translate button.reset {
-  left: 15px;
-  position: absolute;
-  top: 10px;
-  width: 70px;
-}
-
-.translate button.submit {
-  width: 100%;
+.translate button.translate,
+.translate button.blast {
   max-width: 300px;
+  min-width: 100px;
+  width: 30%;
 }
 

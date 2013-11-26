@@ -57,11 +57,21 @@
   
   // Drag n Drop handlers
   
-  function handleDragEnter() {
+  function handleDragEnter(event) {
+    try {
+      if(event.relatedTarget.nodeType == 3) return;
+    } catch(err) {}
+    if(event.target === event.relatedTarget) return;
+    
     $droppable.addClass('dragging');
   }
   
-  function handleDragLeave() {
+  function handleDragLeave(event) {
+    try {
+      if(event.relatedTarget.nodeType == 3) return;
+    } catch(err) {}
+    if(event.target === event.relatedTarget) return;
+    
     $droppable.removeClass('dragging');
   }
 
@@ -88,12 +98,14 @@
 (function(exports) {
 
   var $reset;
-  var $submit;
+  var $translate;
+  var $blast;
   var $seq;
 
   function TranslateForm(_, subElements) {
     $reset = $(subElements.reset);
-    $submit = $(subElements.submit);
+    $translate = $(subElements.translate);
+    $blast = $(subElements.blast);
     $seq = $(subElements.seq);
     
     FastaFile(_, {
@@ -101,10 +113,10 @@
       droppable: subElements.seq
     });
 
-    Store.listen(update, 'seq');
+    Store.listen('seq', update);
 
     $reset.click(reset);
-    $submit.click(submit);
+    $translate.click(submit);
 
     function update(_, seq) {
       $seq.val(seq);
@@ -136,12 +148,12 @@
   function FrameView(container) {
     $container = $(container);
     $frames = $container.find('.frame');
-    Store.listen(fill, 'frames', 'options');
+    Store.listen('frames', 'options', render);
   }
   
   FrameView.TOTAL_FRAMES = 6;
 
-  function fill() {
+  function render() {
     var frames = Store.get('frames');
     if (!frames || frames.length < FrameView.TOTAL_FRAMES) {
       $container.hide();
@@ -150,11 +162,11 @@
     
     $container.show();
     frames.forEach(function(frame, ii) {
-      fillOne($frames.eq(ii), frame);
+      renderOne($frames.eq(ii), frame);
     });
   }
 
-  function fillOne($frame, frame) {
+  function renderOne($frame, frame) {
     $frame.find('.panel-title').text(frame.title);
     $frame.find('.panel-body').html(renderFrame(frame));
   }
@@ -162,7 +174,8 @@
   function renderFrame(frame) {
     within = false;
     var aminos = Store.get('options', {}).short ?
-      Frames.shorten(frame.aminos) : frame.aminos;
+      Frames.shorten(frame.aminos) :
+      frame.aminos;
     return aminos.map(renderAmino).join('');
   }
 
@@ -199,7 +212,7 @@
     $loader = $(container);
     $progress = $(subElems.progressbar);
     
-    Store.listen(update, 'frames');
+    Store.listen('frames', update);
   }
   
   function update() {
@@ -238,8 +251,19 @@
       plaintext: options.plaintext.checked
     });
     
+    Store.listen('frames', hideOrShow);
+    
     handleOptionCheckbox($short, 'short');
     handleOptionCheckbox($plaintext, 'plaintext');
+  }
+  
+  function hideOrShow() {
+    var frames = Store.get('frames');
+    if (frames && frames.length >= FrameView.TOTAL_FRAMES) {
+      $container.show();
+    } else {
+      $container.hide();
+    }
   }
   
   function handleOptionCheckbox($input, optionKey) {
