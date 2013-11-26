@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 
-from translate import views
+from blast import views
 
 urlpatterns = patterns('',
-  url(r'^$', views.index, name='translate'),
+  url(r'^$', views.blast, name='blast'),
 )

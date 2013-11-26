@@ -10,7 +10,7 @@
 .translate .dragging {
   border: 3px dashed green;
   opacity: 0.3;
-  padding: 5px 10px;
+  padding: 4px 9px;
 }
 
 .translate button.translate,

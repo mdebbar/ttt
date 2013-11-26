@@ -116,7 +116,8 @@
     Store.listen('seq', update);
 
     $reset.click(reset);
-    $translate.click(submit);
+    $translate.click(translate);
+    $blast.click(blast);
 
     function update(_, seq) {
       $seq.val(seq);
@@ -127,9 +128,19 @@
       Store.set('seq', null);
     }
 
-    function submit(event) {
+    function translate(event) {
       event.preventDefault();
+      Store.set('blast_cancel', true);
       Store.set('seq', $seq.val());
+    }
+    
+    function blast(event) {
+      event.preventDefault();
+      Store.set('frames', null);
+      Store.set('blast_api', {
+        seq: $seq.val(),
+        algo: 'blastn'
+      });
     }
   }
 
@@ -152,7 +163,7 @@
   }
   
   FrameView.TOTAL_FRAMES = 6;
-
+  
   function render() {
     var frames = Store.get('frames');
     if (!frames || frames.length < FrameView.TOTAL_FRAMES) {
@@ -208,7 +219,7 @@
   var $loader;
   var $progress;
   
-  function Loader(container, subElems) {
+  function FramesLoader(container, subElems) {
     $loader = $(container);
     $progress = $(subElems.progressbar);
     
@@ -226,7 +237,7 @@
     }
   }
   
-  exports.Loader = Loader;
+  exports.FramesLoader = FramesLoader;
 })(this);
 
 

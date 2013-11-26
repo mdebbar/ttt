@@ -7,4 +7,5 @@ def index(req):
 
 urlpatterns = patterns('',
     url(r'^$', index, name='index'),
+    url(r'^blast/', include('blast.urls')),
 )
