@@ -16,11 +16,18 @@
   color: #3a87ad;
   padding: 3px 4px;
   min-width: 25px;
+  opacity: 0.5;
 }
 
+.frame .amino.badge.start,
+.frame .amino.badge.filled,
+.frame .amino.badge.stop {
+  opacity: 1;
+} 
+
 .frame .amino.badge.start {
-  background-color: #5cb85c;
-  border-color: #4cae4c;
+  background-color: #238443;
+  border-color: #005A32;
   color: #fff;
 }
 
