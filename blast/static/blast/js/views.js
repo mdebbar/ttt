@@ -41,6 +41,13 @@
     Store.listen('blast_cancel', function() {
       $container.hide();
     });
+    
+    Store.listen('blast_response', render);
+  }
+  
+  function render() {
+    var data = Store.get('blast_response');
+    // TODO: render the Blast response in UI
   }
   
   exports.BlastView = BlastView;

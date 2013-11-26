@@ -1,9 +1,12 @@
 from django.conf.urls import patterns, include, url
 
 from django.shortcuts import render
+from blast import api
+
 
 def index(req):
-  return render(req, 'index.html')
+  algos = sorted(api.DATABASES.iterkeys())
+  return render(req, 'index.html', {'algos': algos})
 
 urlpatterns = patterns('',
     url(r'^$', index, name='index'),

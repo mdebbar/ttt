@@ -13,10 +13,23 @@
   padding: 4px 9px;
 }
 
+.translate .separation {
+  margin: 10px 0;
+}
+
+.translate button.reset,
+.translate select.algo-selector {
+  width: 100px;
+}
+
 .translate button.translate,
 .translate button.blast {
   max-width: 300px;
   min-width: 100px;
   width: 30%;
+}
+
+.translate .algo-selector {
+  display: inline-block;
 }
 

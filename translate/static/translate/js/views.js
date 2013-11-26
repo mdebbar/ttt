@@ -99,12 +99,14 @@
 
   var $reset;
   var $translate;
+  var $algo;
   var $blast;
   var $seq;
 
   function TranslateForm(_, subElements) {
     $reset = $(subElements.reset);
     $translate = $(subElements.translate);
+    $algo = $(subElements.algo);
     $blast = $(subElements.blast);
     $seq = $(subElements.seq);
     
@@ -139,7 +141,7 @@
       Store.set('frames', null);
       Store.set('blast_api', {
         seq: $seq.val(),
-        algo: 'blastn'
+        algo: $algo.val()
       });
     }
   }

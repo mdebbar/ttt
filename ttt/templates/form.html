@@ -16,9 +16,19 @@
     <textarea {% subID seq %} class="form-control" rows="5"></textarea>
   </div>
   <div class="panel-footer">
-    <button {% subID reset %} type="button" class="btn btn-default reset">Reset</button>
-    <button {% subID translate %} type="button" class="btn btn-primary translate">Translate</button>
-    <button {% subID blast %} type="button" class="btn btn-warning blast">Blast</button>
+    <div>
+      <button {% subID reset %} type="button" class="btn btn-default reset">Reset</button>
+      <button {% subID translate %} type="button" class="btn btn-primary translate">Translate</button>
+    </div>
+    <hr class="separation" />
+    <div>
+      <select {% subID algo %} class="algo-selector form-control">
+        {% for algo in algos %}
+        <option value="{{ algo }}">{{ algo }}</option>
+        {% endfor %}
+      </select>
+      <button {% subID blast %} type="button" class="btn btn-warning blast">Blast</button>
+    </div>
   </div>
 </div>
 {% endelem %}
