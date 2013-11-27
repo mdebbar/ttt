@@ -16,13 +16,8 @@
   color: #3a87ad;
   padding: 3px 4px;
   min-width: 25px;
-  opacity: 0.5;
+  opacity: 0.4;
 }
-
-.frame .amino.badge.start,
-.frame .amino.badge.stop {
-  opacity: 1;
-} 
 
 .frame .amino.badge.start {
   background-color: #238443;
@@ -37,9 +32,14 @@
   color: #fff;
 }
 
-.frame .amino.badge.filled {
+.frame .amino.badge.regular.within {
   background-color: #5bc0de;
   border-color: #46b8da;
   color: #fff;
   opacity: 0.7;
+}
+
+.frame .amino.badge.start.within,
+.frame .amino.badge.stop.within {
+  opacity: 1;
 }

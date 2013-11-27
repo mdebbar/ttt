@@ -194,18 +194,25 @@
 
   var within = false;
   function renderAmino(amino) {
-    var klass = 'amino badge';
+    var classes = ['amino', 'badge'];
+    var wasWithin = within;
+    
     if (Frames.isStart(amino)) {
       within = true;
-      klass += ' start';
+      classes.push('start');
+      if (!wasWithin) {classes.push('within');}
     } else if (Frames.isStop(amino)) {
       within = false;
-      klass += ' stop';
-    } else if (within) {
-      klass += ' filled';
+      classes.push('stop');
+      if (wasWithin) {classes.push('within');}
+    } else {
+      classes.push('regular');
+      if (within) {classes.push('within');}
     }
     var isPlainText = Store.get('options', {}).plaintext;
-    return isPlainText ? amino : '<span class="' + klass + '">' + amino + '</span>';
+    return isPlainText ?
+      amino :
+      '<span class="' + classes.join(' ') + '">' + amino + '</span>';
   }
 
   exports.FrameView = FrameView;
