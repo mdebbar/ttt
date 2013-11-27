@@ -4,6 +4,7 @@
     blast: function(seq, algo) {
       return $.ajax('/blast/', {
         method: 'POST',
+        dataType: 'json',
         data: {seq: seq, algo: algo}
       });
     }

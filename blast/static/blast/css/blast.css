@@ -13,3 +13,27 @@
 .blast-view {
   display: none;
 }
+
+.blast-view .alignment .alignment-content {
+  display: none;
+  font-family: "Lucida Console", Monaco, monospace;
+  letter-spacing: 1px;
+  margin-top: 5px;
+  word-wrap: break-word;
+}
+
+.blast-view .alignment.expanded .alignment-content {
+  display: block;
+}
+
+.blast-view .alignment .alignment-content > span {
+  border-top: 1px solid #ccc;
+  cursor: default;
+  display: inline-block;
+  max-width: 10px;
+  padding: 5px 0;
+}
+
+.blast-view .alignment .alignment-content > span:hover {
+  background: #ccc;
+}

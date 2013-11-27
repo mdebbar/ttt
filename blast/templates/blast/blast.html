@@ -7,7 +7,18 @@
 {% endelem %}
 
 {% jselem BlastView %}
-<div {% rootID %} class="blast-view">
+<div {% rootID %} class="blast-view panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Alignments</h3>
+  </div>
   
+  <table class="table table-hover">
+    <thead>
+      <tr><th class="text-center">Click on the alignment to see the details</th></tr>
+    </thead>
+    <tbody {% subID alignments %}>
+      {#  Here goes the list of Blast alignments  #}
+    </tbody>
+  </table>
 </div>
 {% endelem %}

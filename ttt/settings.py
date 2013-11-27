@@ -1,7 +1,8 @@
 # Django settings for ttt project.
 import os
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR = os.path.dirname(PROJECT_DIR)
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -71,7 +72,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(PROJECT_DIR, 'static'),
 )
 
 # List of finder classes that know how to find static files in
@@ -102,7 +103,7 @@ ROOT_URLCONF = 'ttt.urls'
 WSGI_APPLICATION = 'ttt.wsgi.application'
 
 TEMPLATE_DIRS = (
-  os.path.join(BASE_DIR, 'templates'),
+  os.path.join(PROJECT_DIR, 'templates'),
 )
 
 INSTALLED_APPS = (

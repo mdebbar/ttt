@@ -1,7 +1,8 @@
-import json, sys
+import json, os, sys
 from Bio.Seq import Seq
 from Bio.Blast import NCBIWWW, NCBIXML
 from Bio.SeqRecord import SeqRecord
+from django.conf import settings
 
 E_VALUE_THRESH = 0.04
 
@@ -14,13 +15,20 @@ DATABASES = {
 }
 
 
+def sample():
+  return fromFileHandle(open(
+    os.path.join(settings.ROOT_DIR, 'blast/blastn.xml')
+  ))
+
 # algo: ['blastn', 'blastp', 'blastx', 'tblastn', 'tblastx']
 def blast(seq, algo):
   algo = algo or 'blastn' # default algo
   
   seqRec = SeqRecord(Seq(seq))
   result_handle = NCBIWWW.qblast(algo, DATABASES[algo], seqRec.seq)
-  blast_records = NCBIXML.parse(result_handle)
+  return fromFileHandle(result_handle)
+  
+def fromFileHandle(file_handle):
   # result = {'records': [
   #   {'alignments': [
   #     {
@@ -32,6 +40,7 @@ def blast(seq, algo):
   #   ]},
   #   # ...
   # ]}
+  blast_records = NCBIXML.parse(file_handle)
   records = []
   for rec in blast_records:
     alignments = []
@@ -45,12 +54,12 @@ def blast(seq, algo):
             'subject': hsp.sbjct
           }
           hsps.append(hspObj)
-          alignments.append({
-            'title': alignment.title,
-            'length': alignment.length,
-            'hsps': hsps
-          })
-    records.append({
+      hsps and alignments.append({
+        'title': alignment.hit_def,
+        'length': alignment.length,
+        'hsps': hsps
+      })
+    alignments and records.append({
       'alignments': alignments
     })
   return {'records': records}
@@ -59,5 +68,4 @@ def blast(seq, algo):
 if __name__ == '__main__':
   seq = sys.argv[-1]
   algorithm = sys.argv[-2]
-  db = 'nt'
-  print json.dumps(blast(seq, algorithm, db))
+  print json.dumps(blast(seq, algorithm))
