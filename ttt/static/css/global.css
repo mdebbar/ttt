@@ -31,3 +31,7 @@ textarea {
 .topbar a:focus {
   color: #fff;
 }
+
+.main {
+  padding: 0 30px;
+}
